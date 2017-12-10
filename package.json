@@ -27,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/umar-muneer/table-watcher/issues"
   },
-  "homepage": "https://github.com/umar-muneer/table-watcher#readme"
+  "homepage": "https://github.com/umar-muneer/table-watcher#readme",
+  "dependencies": {
+    "mysql2": "^1.5.1"
+  }
 }
