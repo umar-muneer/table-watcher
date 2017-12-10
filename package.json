@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/umar-muneer/table-watcher#readme",
   "dependencies": {
+    "lodash": "^4.17.4",
     "mysql2": "^1.5.1"
   }
 }
