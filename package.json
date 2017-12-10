@@ -1,0 +1,31 @@
+{
+  "name": "table-watcher",
+  "version": "1.0.0",
+  "description": "watch for insertions,deletions, updates, and truncations",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umar-muneer/table-watcher.git"
+  },
+  "keywords": [
+    "mysql",
+    "tablewatcher",
+    "triggers",
+    "insertions",
+    "deletions",
+    "updates",
+    "truncation"
+  ],
+  "author": "Umar Muneer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umar-muneer/table-watcher/issues"
+  },
+  "homepage": "https://github.com/umar-muneer/table-watcher#readme"
+}
