@@ -11,8 +11,10 @@ describe('watcher', () => {
 	let connection = {};
 	let watcher = {};
 	before(async function() {
-		const host= 'localhost';
-		const user = 'root';
+		const host= process.env.DB_HOST || 'localhost1';
+		const user = process.env.DB_USER || 'root1';
+		const port = process.env.DB_PORT || 33061;
+		const password = _.has(process.env, 'DB_PASSWORD') ? process.env.DB_PASSWORD : '';
 		const database = DATABASE_NAME;
 		firstConnection = Promise.promisifyAll(mysql.createConnection({host, user}));
 		await firstConnection.queryAsync(`create database if not exists ${DATABASE_NAME}`);		
@@ -20,8 +22,8 @@ describe('watcher', () => {
 		await connection.queryAsync(`create table if not exists ${WATCH_TABLE_NAME} (table_name text, operation text, timestamp int);`);
 		const testTableQueries = _.map(TEST_TABLE_NAMES, t => `create table if not exists ${t} (name text);`);
 		await connection.queryAsync(testTableQueries.join(''));
-		watcher = Watcher(DATABASE_NAME, WATCH_TABLE_NAME);
-		await watcher.watch(connection);
+		watcher = Watcher(DATABASE_NAME, WATCH_TABLE_NAME, {host, user, port, password});
+		await watcher.watch();
 	});
 	after(async function() {
 		await firstConnection.execute('drop database test_table_watcher;');
