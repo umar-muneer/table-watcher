@@ -11,9 +11,9 @@ describe('watcher', () => {
 	let connection = {};
 	let watcher = {};
 	before(async function() {
-		const host= process.env.DB_HOST || 'localhost1';
-		const user = process.env.DB_USER || 'root1';
-		const port = process.env.DB_PORT || 33061;
+		const host= process.env.DB_HOST || 'localhost';
+		const user = process.env.DB_USER || 'root';
+		const port = process.env.DB_PORT || 3306;
 		const password = _.has(process.env, 'DB_PASSWORD') ? process.env.DB_PASSWORD : '';
 		const database = DATABASE_NAME;
 		firstConnection = Promise.promisifyAll(mysql.createConnection({host, user}));
