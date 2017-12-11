@@ -20,7 +20,7 @@ describe('watcher', () => {
 		await connection.queryAsync(`create table if not exists ${WATCH_TABLE_NAME} (table_name text, operation text, timestamp int);`);
 		const testTableQueries = _.map(TEST_TABLE_NAMES, t => `create table if not exists ${t} (name text);`);
 		await connection.queryAsync(testTableQueries.join(''));
-		watcher = Watcher(WATCH_TABLE_NAME);
+		watcher = Watcher(DATABASE_NAME, WATCH_TABLE_NAME);
 		await watcher.watch(connection);
 	});
 	after(async function() {
