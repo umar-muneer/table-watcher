@@ -24,7 +24,7 @@ describe('watcher', () => {
 		await connection.queryAsync(testTableQueries.join(''));		
 	});
 	after(async function() {
-		// await firstConnection.execute('drop database test_table_watcher;');
+		await firstConnection.execute('drop database test_table_watcher;');
 	});
 	beforeEach(async function() {
 		await connection.queryAsync(`truncate test_table_watch;`);
