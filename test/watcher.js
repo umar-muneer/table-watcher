@@ -67,11 +67,11 @@ describe('watcher', () => {
 				const insertionQueries = _.map(TEST_TABLE_NAMES, t => `insert into ${t} values ('1');`);
 				await connection.queryAsync(insertionQueries.join(''))
 			});
-			it('should generate counts map with watch', async function() {
+			it('should generate map of tables with count > 0', async function() {
 				const expectedResult = {
 					test: 1,
-					test1: 1
 				};
+				await connection.queryAsync('truncate test1');
 				const watch = await watcherWithCount.watch();
 				const actualResult = watch.getTablesCountMap();
 				chai.expect(actualResult).to.eql(expectedResult);
@@ -89,11 +89,11 @@ describe('watcher', () => {
 				const actualResult = await watch.getModifiedTables();
 				chai.expect(TEST_TABLE_NAMES).to.eql(actualResult);
 			});
-			it('should create a restoration map for a list of tables', async function() {
+			it('should create a restoration map for a list of tables with count > 0', async function() {
+				await connection.queryAsync('truncate test1');
 				const watch = await watcherWithCount.watch();
 				const actualResult = watch.getRestorationMap();
 				chai.expect(actualResult['test']).to.not.be.empty;
-				chai.expect(actualResult['test1']).to.not.be.empty;
 			});
 		});
 	});
