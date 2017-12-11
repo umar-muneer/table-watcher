@@ -94,6 +94,7 @@ describe('watcher', () => {
 				const watch = await watcherWithCount.watch();
 				const actualResult = watch.getRestorationMap();
 				chai.expect(actualResult['test']).to.not.be.empty;
+				chai.expect(actualResult['test1']).to.be.undefined;
 			});
 		});
 	});
