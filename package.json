@@ -1,6 +1,6 @@
 {
   "name": "table-watcher",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "watch for insertions,deletions, updates, and truncations",
   "main": "index.js",
   "scripts": {
