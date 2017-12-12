@@ -18,7 +18,6 @@ describe('watcher', () => {
 	const password = _.has(process.env, 'DB_PASSWORD') ? process.env.DB_PASSWORD : '';
 	const database = DATABASE_NAME;
 	const mysqldump = process.env.MYSQL_DUMP || 'mysqldump';
-	const restorationDumpsFolder = path.resolve('test/dumps');
 	before(async function() {		
 		firstConnection = Promise.promisifyAll(mysql.createConnection({host, user}));
 		await firstConnection.queryAsync(`create database if not exists ${DATABASE_NAME}`);		
@@ -26,9 +25,6 @@ describe('watcher', () => {
 		await connection.queryAsync(`create table if not exists ${WATCH_TABLE_NAME} (table_name text, operation text, timestamp int);`);
 		const testTableQueries = _.map(TEST_TABLE_NAMES, t => `create table if not exists ${t} (name text);`);
 		await connection.queryAsync(testTableQueries.join(''));
-		if (!fs.existsSync(restorationDumpsFolder)) {
-			fs.mkdirSync(restorationDumpsFolder);
-		}
 	});
 	after(async function() {
 		await firstConnection.execute('drop database test_table_watcher;');
@@ -39,7 +35,7 @@ describe('watcher', () => {
 	describe('watch', () => {
 		let watcher = {};
 		before(async function() {
-			watcher = Watcher(DATABASE_NAME, WATCH_TABLE_NAME, {host, user, port, password, mysqldump, restorationDumpsFolder});
+			watcher = Watcher(DATABASE_NAME, WATCH_TABLE_NAME, {host, user, port, password, mysqldump});
 			await watcher.watch();
 		});
 		beforeEach(async function() {						
@@ -70,7 +66,7 @@ describe('watcher', () => {
 		describe('watch with count map', () => {
 			let watcherWithCount = {};
 			before(async () => {
-				watcherWithCount = Watcher(DATABASE_NAME, WATCH_TABLE_NAME, {host, user, port, password, mysqldump, restorationDumpsFolder});
+				watcherWithCount = Watcher(DATABASE_NAME, WATCH_TABLE_NAME, {host, user, port, password, mysqldump});
 				const insertionQueries = _.map(TEST_TABLE_NAMES, t => `insert into ${t} values ('1');`);
 				await connection.queryAsync(insertionQueries.join(''))
 			});
@@ -100,7 +96,7 @@ describe('watcher', () => {
 				await connection.queryAsync('truncate test1');
 				const watch = await watcherWithCount.watch();
 				const actualResult = watch.getRestorationMap();
-				chai.expect(actualResult['test']).to.equal(path.join(restorationDumpsFolder, 'test'));
+				chai.expect(actualResult['test']).to.not.be.empty;
 				chai.expect(actualResult['test1']).to.be.undefined;
 			});
 		});
