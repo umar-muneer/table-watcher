@@ -36,6 +36,7 @@ describe('watcher', () => {
 		let watcher = {};
 		before(async function() {
 			watcher = Watcher(DATABASE_NAME, WATCH_TABLE_NAME, {host, user, port, password, mysqldump});
+			await watcher.createTriggers();
 			await watcher.watch();
 		});
 		beforeEach(async function() {						
@@ -67,6 +68,7 @@ describe('watcher', () => {
 			let watcherWithCount = {};
 			before(async () => {
 				watcherWithCount = Watcher(DATABASE_NAME, WATCH_TABLE_NAME, {host, user, port, password, mysqldump});
+				await watcherWithCount.createTriggers();
 				const insertionQueries = _.map(TEST_TABLE_NAMES, t => `insert into ${t} values ('1');`);
 				await connection.queryAsync(insertionQueries.join(''))
 			});
